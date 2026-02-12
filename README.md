@@ -20,11 +20,17 @@ A simple skin price aggregator for Counter-Strike 2 skins. It fetches prices fro
 ## Installation
 
 1.  Clone the repository.
-2.  Install dependencies:
+2.  Set up a virtual environment:
+
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
+
+3.  Install dependencies:
 
     ```bash
     pip install -r requirements.txt
-    pip install brotli  # Required for Skinport API decoding
     ```
 
 ## Usage
@@ -36,6 +42,10 @@ A simple skin price aggregator for Counter-Strike 2 skins. It fetches prices fro
     ```
 
 2.  Search for a skin:
+
+    You can access the API at `http://localhost:8000/docs#/default/search_search_get`.
+
+    Or use curl:
 
     ```bash
     curl "http://127.0.0.1:8000/search?q=AK-47"

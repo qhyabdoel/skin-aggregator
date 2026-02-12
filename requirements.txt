@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+httpx
+pydantic
+fastapi-cache2
+brotli
