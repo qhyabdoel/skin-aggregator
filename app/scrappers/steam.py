@@ -1,6 +1,6 @@
 from typing import List
 from datetime import datetime
-from app.core.scraper_base import BaseScraper
+from app.core.scrapper_base import BaseScraper
 from app.schemas.listing import Listing
 
 class SteamScraper(BaseScraper):
