@@ -5,13 +5,13 @@ from fastapi_cache.decorator import cache
 
 from app.core.engine import get_all_listings
 from app.scrapers.ebay import EbayScraper
-from app.scrapers.amazon import AmazonScraper
+from app.scrapers.steam import SteamScraper
 from typing import Dict, Any
 
 app = FastAPI(title="Marketplace Aggregator")
 
 # Initialize the scrapers once at startup
-SCRAPERS = [EbayScraper(), AmazonScraper()]
+SCRAPERS = [EbayScraper(), SteamScraper()]
 
 @app.on_event("startup")
 async def startup():
