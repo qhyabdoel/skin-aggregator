@@ -68,7 +68,6 @@ class SkinportScraper(BaseScraper):
         # Filter items client-side
         # Skinport items list structure:
         # [{"market_hash_name": "...", "currency": "USD", "min_price": 12.34, ...}]
-        # Note: 'min_price' is likely None if no listing available
         
         for item in self._items_cache:
             market_hash_name = item.get("market_hash_name", "")
@@ -84,13 +83,7 @@ class SkinportScraper(BaseScraper):
 
             # Create listing
             # Skinport specific URL construction
-            # spaces in market_hash_name should be replaced or encoded?
-            # looking at actual skinport urls: https://skinport.com/market?cat=Rifle&item=AK-47
-            # simpler: https://skinport.com/item/[market_hash_name] (need to verify this or use search url)
-            # A search URL is safer: https://skinport.com/market?search=[query]
-            # But for specific item, we can try to construct a specific link.
-            # Let's use the general search for the query item to be safe, or 
-            # better yet, search for the specific item name to narrow it down.
+            # spaces in market_hash_name should be replaced or encoded
             
             item_url = f"https://skinport.com/market?search={market_hash_name.replace(' ', '%20')}"
 
