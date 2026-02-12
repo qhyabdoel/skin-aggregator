@@ -1,10 +1,10 @@
 # Skin Price Aggregator
 
-A simple skin price aggregator for Counter-Strike 2 skins. It fetches prices from **Steam** and **Skinport** and identifies the best deals.
+A simple skin price aggregator for Counter-Strike 2 skins. It fetches prices from multiple marketplaces and identifies the best deals.
 
 ## Features
 
-- **Multi-Marketplace Support**: Aggregates listings from Steam Community Market and Skinport.
+- **Multi-Marketplace Support**: Aggregates listings from multiple marketplaces.
 - **Normalization**: returns a standardized JSON format for all listings.
 - **Best Deal Logic**: Scores listings based on price and freshness to identify the best deal.
 - **Caching**: 
