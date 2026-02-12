@@ -1,20 +1,57 @@
-# Marketplace Scraper API
+# Skin Price Aggregator
 
-## Approach
+A simple skin price aggregator for Counter-Strike 2 skins. It fetches prices from **Steam** and **Skinport** and identifies the best deals.
 
-- **Scalability:** Uses the **Strategy Pattern**. Each marketplace is a standalone class.
-- **Concurrency:** Leverages `asyncio` to hit all marketplaces at once, reducing latency.
-- **Normalization:** Data is strictly validated via **Pydantic** models.
-- **Resilience:** `safe_scrape` ensures that if one marketplace fails (404, selector change), the others still return data.
+## Features
 
-## Adding a New Marketplace
+- **Multi-Marketplace Support**: Aggregates listings from Steam Community Market and Skinport.
+- **Normalization**: returns a standardized JSON format for all listings.
+- **Best Deal Logic**: Scores listings based on price and freshness to identify the best deal.
+- **Caching**: 
+    - Search results are cached for 60 seconds (In-Memory).
+    - Skinport full item list is cached for 5 minutes (In-Memory) to respect API rate limits.
+- **Resilience**: Gracefully handles individual scraper failures without crashing the entire request.
 
-1. Create a new class in `app/scrapers/` (e.g., `walmart.py`).
-2. Inherit from `BaseScraper` and implement the `scrape` method.
-3. Add the class instance to the `SCRAPERS` list in `app/main.py`.
+## Requirements
 
-## Scoring Logic
+- Python 3.9+
+- `pip`
 
-The "Best Deal" is calculated using a **Value Score**:
-$$Score = \frac{1000}{Price}$$
-This prioritizes lower prices while the engine preserves data freshness through the 60s cache.
+## Installation
+
+1.  Clone the repository.
+2.  Install dependencies:
+
+    ```bash
+    pip install -r requirements.txt
+    pip install brotli  # Required for Skinport API decoding
+    ```
+
+## Usage
+
+1.  Start the server:
+
+    ```bash
+    uvicorn app.main:app --reload
+    ```
+
+2.  Search for a skin:
+
+    ```bash
+    curl "http://127.0.0.1:8000/search?q=AK-47"
+    ```
+
+## Architecture
+
+-   **`app/main.py`**: FastAPI entry point and caching configuration.
+-   **`app/core/engine.py`**: Handles concurrent scraping and listing aggregation/scoring.
+-   **`app/core/scraper_base.py`**: Abstract base class that all scrapers must implement.
+-   **`app/scrapers/`**: Directory containing specific marketplace implementations (e.g., `steam.py`, `skinport.py`).
+-   **`app/schemas/`**: Pydantic models for data validation.
+
+## Adding a New Scraper
+
+1.  Create a new file in `app/scrapers/` (e.g., `buff.py`).
+2.  Create a class that inherits from `BaseScraper`.
+3.  Implement the `marketplace_name` property and `scrape` method.
+4.  Add the new scraper instance to the `SCRAPERS` list in `app/main.py`.
